@@ -20,7 +20,7 @@ function deleteCard(evt) {
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(function (element) {
-    const cardElement = createCard(element, deleteCard);
-    cardsConteiner.append(cardElement);
+    const cardItem = createCard(element, deleteCard);
+    cardsConteiner.append(cardItem);
     createCard(element, deleteCard);
 })
