@@ -25,8 +25,8 @@ function closeModalOverlay (popup) {
 
 //закрытие по Esc
 function closeModalEsc (evt) {
-    const popUp = document.querySelector('.popup_is-opened');
     if (evt.key === 'Escape') {
+        const popUp = document.querySelector('.popup_is-opened');
         closeModal(popUp);
     }
 }
