@@ -1,21 +1,21 @@
-export {openModal, closeModal, closeModalOverlay}
+export {openModal, closeModal, addCloseModalOverlayListener}
 
 //функция открытия pop-up
 function openModal(element) {
     element.classList.add('popup_is-opened');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('hidden');
     document.addEventListener('keydown', closeModalEsc);
 }
 
 //функция закрытия pop-up
 function closeModal(element) {
     element.classList.remove('popup_is-opened');
-    document.body.style.overflow = '';
+    document.body.classList.remove('hidden');
     document.removeEventListener('keydown', closeModalEsc);
 }
 
 //закрытие по оверлей
-function closeModalOverlay (popup) {
+function addCloseModalOverlayListener (popup) {
     popup.addEventListener('click', function(evt) {
         if ( evt.target.classList.contains('popup')) {
             closeModal(popup);

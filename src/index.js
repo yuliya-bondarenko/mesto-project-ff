@@ -1,6 +1,7 @@
 import './pages/index.css'; 
-import {createCard, deleteCard, initialCards, addLike} from './components/cards';
-import {openModal, closeModal, closeModalOverlay} from './components/modal';
+import {createCard, deleteCard, addLike} from './components/card';
+import {openModal, closeModal, addCloseModalOverlayListener} from './components/modal';
+import {initialCards} from './components/cards';
 
 const content = document.querySelector('.content');
 const cardsConteiner = content.querySelector('.places__list');
@@ -10,9 +11,9 @@ const popupTypeEdit = document.querySelector('.popup_type_edit');//модаль�
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');//модальное окно добавления новой карточки
 const popupTypeImage = document.querySelector('.popup_type_image');//модальное окно при клике на картинку
 
-const formElement = document.forms['edit-profile'];//получение формы из попап редакт профиля
-const nameInput = formElement.elements.name;//получение значение 1 инпут из формы редактирования профиля
-const jobInput = formElement.elements.description;//получение значения 2 инпут из формы редактирования профиля
+const formElementProfile = document.forms['edit-profile'];//получение формы из попап редакт профиля
+const nameInput = formElementProfile.elements.name;//получение значение 1 инпут из формы редактирования профиля
+const jobInput = formElementProfile.elements.description;//получение значения 2 инпут из формы редактирования профиля
 const profilTitle = document.querySelector('.profile__title');//поле имя на странице
 const profilJob = document.querySelector('.profile__description');//поле род деятельности на странице
 
@@ -50,31 +51,31 @@ function openPopupImg(item) {
 }
  
 //закрытие поп ап по кпопке 
-function clouseModalButton (popup) {
+function addCloseModalButtonListener (popup) {
     const popupClose = popup.querySelector('.popup__close');//кнопка закрытия поп ап
     popupClose.addEventListener('click',() => {closeModal(popup)})
 }
 
-clouseModalButton(popupTypeEdit);
-clouseModalButton(popupTypeNewCard);
-clouseModalButton(popupTypeImage);
+addCloseModalButtonListener(popupTypeEdit);
+addCloseModalButtonListener(popupTypeNewCard);
+addCloseModalButtonListener(popupTypeImage);
 
 //вызов функции при закрытии по оверлей
 
-closeModalOverlay(popupTypeEdit);
-closeModalOverlay(popupTypeNewCard);
-closeModalOverlay(popupTypeImage);
+addCloseModalOverlayListener(popupTypeEdit);
+addCloseModalOverlayListener(popupTypeNewCard);
+addCloseModalOverlayListener(popupTypeImage);
 
 // Прикрепляем обработчик к форме:
 //функция добавления информации профиля в pop-up
-function handleFormSubmit(evt) {
+function handleFormSubmitProfile(evt) {
     evt.preventDefault();
     profilTitle.textContent = nameInput.value;
     profilJob.textContent = jobInput.value;
     closeModal(popupTypeEdit);
 }
 
-formElement.addEventListener('submit', handleFormSubmit);
+formElementProfile.addEventListener('submit', handleFormSubmitProfile);
 
 //добавление своей карточки на страницу
 function addNewCard (evt) {
