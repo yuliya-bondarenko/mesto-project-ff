@@ -11,6 +11,8 @@ const profileAddButton = document.querySelector('.profile__add-button');//кно
 const popupTypeEdit = document.querySelector('.popup_type_edit');//модальное окно профиля
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');//модальное окно добавления новой карточки
 const popupTypeImage = document.querySelector('.popup_type_image');//модальное окно при клике на картинку
+const popupImage = document.querySelector('.popup__image');//картинка из попап при нажатии на картинку
+    const popupCaption = document.querySelector('.popup__caption');//текст из попап - подпись название картинки
 
 const formElementProfile = document.forms['edit-profile'];//получение формы из попап редакт профиля
 const nameInput = formElementProfile.elements.name;//получение значение 1 инпут из формы редактирования профиля
@@ -52,8 +54,6 @@ profileAddButton.addEventListener('click', () => {
 //открыть картинку
 //функция открытия модального окна с карточкой
 function openPopupImg(item) {
-    const popupImage = document.querySelector('.popup__image');//картинка из попап при нажатии на картинку
-    const popupCaption = document.querySelector('.popup__caption');//текст из попап - подпись название картинки
       popupImage.src = item.link;
       popupImage.alt = item.name;
       popupCaption.textContent = item.name;
@@ -97,6 +97,9 @@ function handleFormSubmitProfile(evt) {
         profilAvatar.src = newData.avatar;
         closeModal(popupTypeEdit);
     })
+    .catch((err)=> {
+        console.log(`Ошибка: ${err.status}`);
+    })
     .finally(formButton.textContent = textButton)
 }
 
@@ -119,7 +122,7 @@ function addNewCard (evt) {
         const newCard = createCard(
             userId,
             newImg, 
-            handleDeleteCard, 
+            openModalDeleteCard, 
             openPopupImg,
             addLike
         );
@@ -127,8 +130,10 @@ function addNewCard (evt) {
         formNewPlace.reset();
         closeModal(popupTypeNewCard);
     })
-    .finally(formButton.textContent = textButton)
-    
+    .catch((err)=> {
+        console.log(`Ошибка: ${err.status}`);
+    })
+    .finally(formButton.textContent = textButton)  
 }
 
 formNewPlace.addEventListener('submit', addNewCard);
@@ -143,16 +148,19 @@ Promise.all([getDataUsers(), getInitialCards()])
     .then(([userData, cards]) => {
         userId = userData['_id'];
         cards.forEach((card) => {
-            const newCard = createCard(userId, card, handleDeleteCard, openPopupImg, addLike);
+            const newCard = createCard(userId, card, openModalDeleteCard, openPopupImg, addLike);
             cardsConteiner.append(newCard);
         });
         profilTitle.textContent = userData.name;
         profilJob.textContent = userData.about;
         profilAvatar.src = userData.avatar;
+    })
+    .catch((err)=> {
+        console.log(`Ошибка: ${err.status}`);
 })
 
 //Удаление карточки
-const handleDeleteCard = (cardId, card) => {
+const openModalDeleteCard = (cardId, card) => {
     deleteCardId = cardId; 
     deleteElement = card;
     openModal(popupYes);
@@ -168,25 +176,35 @@ function submitDeleteCard(evt) {
         deleteElement.remove();
         deleteElement = null;
     })
+    .catch((err)=> {
+        console.log(`Ошибка: ${err.status}`);
+    })
     .finally(() => closeModal(popupYes))
 }
 
 //фунция постановки лайк
-const addLike = (evt, cardId, likeConteiner) => {
+const addLike = (evt, cardId, toggleLike) => {
     const likeButton = evt.target;
     if (likeButton.classList.contains('card__like-button_is-active')) {
-      unlikeCard(cardId).then((card) => {
-          likeButton.classList.remove('card__like-button_is-active');
-          likeConteiner.textContent = card.likes['length'];
+        unlikeCard(cardId)
+        .then((card) => {
+            toggleLike(card);
+        })
+        .catch((err)=> {
+            console.log(`Ошибка: ${err.status}`);
         })
     }
     else {
-      likeCard(cardId).then((card) => {
-          likeButton.classList.add('card__like-button_is-active');
-          likeConteiner.textContent = card.likes['length'];
+        likeCard(cardId)
+        .then((card) => {
+            toggleLike(card);
+        })
+        .catch((err)=> {
+            console.log(`Ошибка: ${err.status}`);
         })
     }
 }
+
 
 //открыть попап редактирование профиля
 profileImageContainer.addEventListener('click',() => openModal(popupAvatar));
@@ -203,6 +221,9 @@ const avatarSubmit = (evt) => {
     .then((dataAvatar) => {
         profilAvatar.src = dataAvatar.avatar;
         closeModal(popupAvatar);
+    })
+    .catch((err)=> {
+        console.log(`Ошибка: ${err.status}`);
     })
     .finally(formButton.textContent = textButton)
 }

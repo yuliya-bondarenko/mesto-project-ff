@@ -16,7 +16,6 @@ const handleResponse = (res) => {
     }
      // если ошибка, отклоняем промис
      return Promise.reject(`Ошибка: ${res.status}`);
-    
 };
 
 //загрузка информации о пользователе с сервера
@@ -28,9 +27,6 @@ const getDataUsers = () => {
         }
     })
     .then(handleResponse)
-    .catch((err)=> {
-        console.log(`Ошибка: ${err.status}`);
-    });
 }
 
 //Загрузка карточек с сервера
@@ -42,9 +38,6 @@ const getInitialCards = () => {
         }
     })
     .then(handleResponse)
-    .catch((err) => {
-        console.log(err); // выводим ошибку в консоль
-    });
 }
 
 //Редактирование профиля
@@ -58,7 +51,6 @@ const pushDataUser = (name, about) => {
         body: JSON.stringify({name, about})
     })
     .then(handleResponse)
-    .catch((err) => {console.log(err);})
 }
 
 //Обновление аватара пользователя
@@ -72,7 +64,6 @@ const pushAvatar = (avatar) => {
         body: JSON.stringify({avatar})
     })
     .then(handleResponse)
-    .catch((err) => {console.log(err);})
 }
 
 //Добавление новой карточки
@@ -86,7 +77,6 @@ const  addNewCardFromServer = (name, link) => {
         body: JSON.stringify({name, link})
     })
     .then(handleResponse)
-    .catch((err) => {console.log(err);})
 }
 
 //Удаление карточки
@@ -99,7 +89,6 @@ const deleteCardServer = (cardId) => {
         }
     })
     .then(handleResponse)
-    .catch((err) => {console.log(err);})
 }
 
 //Постановка лайка
@@ -112,7 +101,6 @@ const likeCard = (cardId) => {
         }
     })
     .then(handleResponse)
-    .catch((err) => {console.log(err);})
 }
 
 //снятие лайка
@@ -125,5 +113,4 @@ const unlikeCard = (cardId) => {
         }
     })
     .then(handleResponse)
-    .catch((err) => {console.log(err);})
 }
