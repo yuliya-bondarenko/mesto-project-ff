@@ -12,7 +12,7 @@ const popupTypeEdit = document.querySelector('.popup_type_edit');//модаль�
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');//модальное окно добавления новой карточки
 const popupTypeImage = document.querySelector('.popup_type_image');//модальное окно при клике на картинку
 const popupImage = document.querySelector('.popup__image');//картинка из попап при нажатии на картинку
-    const popupCaption = document.querySelector('.popup__caption');//текст из попап - подпись название картинки
+const popupCaption = document.querySelector('.popup__caption');//текст из попап - подпись название картинки
 
 const formElementProfile = document.forms['edit-profile'];//получение формы из попап редакт профиля
 const nameInput = formElementProfile.elements.name;//получение значение 1 инпут из формы редактирования профиля
@@ -150,7 +150,7 @@ Promise.all([getDataUsers(), getInitialCards()])
         cards.forEach((card) => {
             const newCard = createCard(userId, card, openModalDeleteCard, openPopupImg, addLike);
             cardsConteiner.append(newCard);
-        });
+        })
         profilTitle.textContent = userData.name;
         profilJob.textContent = userData.about;
         profilAvatar.src = userData.avatar;
