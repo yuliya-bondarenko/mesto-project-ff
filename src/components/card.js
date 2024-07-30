@@ -27,7 +27,7 @@ function createCard(userId, element, openModalDeleteCard, openPopupImg, addLike)
   }
   
   //проверяем стоит наш лайк на карточке или нет
-   if (element.likes.some((like) => {like['_id'] === userId;})) {
+   if (element.likes.some((like) => {return like['_id'] === userId;})) {
     likeButton.classList.add('card__like-button_is-active');
   }
 
